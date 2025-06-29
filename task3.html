@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Tic-Tac-Toe</title>
+  <link rel="stylesheet" href="task3.css" />
+</head>
+<body>
+  <div class="game-container">
+    <h1>Tic-Tac-Toe</h1>
+    <div class="board" id="board">
+      <div class="cell" data-index="0"></div>
+      <div class="cell" data-index="1"></div>
+      <div class="cell" data-index="2"></div>
+      <div class="cell" data-index="3"></div>
+      <div class="cell" data-index="4"></div>
+      <div class="cell" data-index="5"></div>
+      <div class="cell" data-index="6"></div>
+      <div class="cell" data-index="7"></div>
+      <div class="cell" data-index="8"></div>
+    </div>
+    <div id="status">Player X's turn</div>
+    <button id="reset">Reset Game</button>
+  </div>
+<script>
+const board = document.getElementById('board');
+const cells = document.querySelectorAll('.cell');
+const statusText = document.getElementById('status');
+const resetBtn = document.getElementById('reset');
+
+let currentPlayer = 'X';
+let gameState = ["", "", "", "", "", "", "", "", ""];
+let isGameActive = true;
+
+const winningCombinations = [
+  [0, 1, 2], [3, 4, 5], [6, 7, 8], // rows
+  [0, 3, 6], [1, 4, 7], [2, 5, 8], // columns
+  [0, 4, 8], [2, 4, 6]             // diagonals
+];
+
+function checkWinner() {
+  for (const combo of winningCombinations) {
+    const [a, b, c] = combo;
+    if (gameState[a] && gameState[a] === gameState[b] && gameState[a] === gameState[c]) {
+      statusText.textContent = `Player ${gameState[a]} wins!`;
+      isGameActive = false;
+      return;
+    }
+  }
+
+  if (!gameState.includes("")) {
+    statusText.textContent = "It's a draw!";
+    isGameActive = false;
+  }
+}
+
+function handleClick(e) {
+  const cell = e.target;
+  const index = cell.getAttribute('data-index');
+
+  if (gameState[index] !== "" || !isGameActive) return;
+
+  gameState[index] = currentPlayer;
+  cell.textContent = currentPlayer;
+
+  checkWinner();
+
+  if (isGameActive) {
+    currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+    statusText.textContent = `Player ${currentPlayer}'s turn`;
+  }
+}
+
+function resetGame() {
+  gameState = ["", "", "", "", "", "", "", "", ""];
+  isGameActive = true;
+  currentPlayer = 'X';
+  statusText.textContent = `Player X's turn`;
+  cells.forEach(cell => cell.textContent = "");
+}
+
+cells.forEach(cell => cell.addEventListener('click', handleClick));
+resetBtn.addEventListener('click', resetGame);
+</script>
+</body>
+</html>

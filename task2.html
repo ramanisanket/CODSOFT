@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Stopwatch App</title>
+  <link rel="stylesheet" href="task2.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>Stopwatch</h1>
+    <div id="display">00:00:00</div>
+    <div class="buttons">
+      <button id="start">Start</button>
+      <button id="pause">Pause</button>
+      <button id="reset">Reset</button>
+      <button id="lap">Lap</button>
+    </div>
+    <ul id="laps"></ul>
+  </div>
+  <script>
+      let startTime = 0;
+      let elapsedTime = 0;
+      let timerInterval;
+      let lapCount = 0;
+
+      const display = document.getElementById("display");
+      const startBtn = document.getElementById("start");
+      const pauseBtn = document.getElementById("pause");
+      const resetBtn = document.getElementById("reset");
+      const lapBtn = document.getElementById("lap");
+      const lapsList = document.getElementById("laps");
+
+    function timeToString(time) {
+      const date = new Date(time);
+      const minutes = String(date.getUTCMinutes()).padStart(2, "0");
+      const seconds = String(date.getUTCSeconds()).padStart(2, "0");
+      const milliseconds = String(Math.floor(date.getUTCMilliseconds() / 10)).padStart(2, "0");
+      return `${minutes}:${seconds}:${milliseconds}`;
+    }
+
+    function start() {
+      startTime = Date.now() - elapsedTime;
+      timerInterval = setInterval(() => {
+      elapsedTime = Date.now() - startTime;
+      display.textContent = timeToString(elapsedTime);
+      }, 10);
+    }
+
+    function pause() {
+      clearInterval(timerInterval);
+    }
+
+    function reset() {
+      clearInterval(timerInterval);
+      display.textContent = "00:00:00";
+      elapsedTime = 0;
+      lapsList.innerHTML = "";
+      lapCount = 0;
+    }
+
+    function recordLap() {
+      lapCount++;
+      const li = document.createElement("li");
+      li.textContent = `Lap ${lapCount}: ${timeToString(elapsedTime)}`;
+      lapsList.appendChild(li);
+    }
+
+    startBtn.addEventListener("click", start);
+    pauseBtn.addEventListener("click", pause);
+    resetBtn.addEventListener("click", reset);
+    lapBtn.addEventListener("click", recordLap);
+</script>
+</body>
+</html>

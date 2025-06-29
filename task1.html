@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Interactive Nav Menu</title>
+  <link rel="stylesheet" href="task1.css"/>
+</head>
+<body>
+  <header id="navbar">
+    <nav class="nav-container">
+      <ul class="nav-menu">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#portfolio">Portfolio</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section id="home">
+        <h1>Home</h1>
+        <p>Scroll down to see the effect.</p>
+    </section>
+    <section id="services">
+        <h1>Services</h1>
+        <p>Our services description.</p>
+    </section>
+    <section id="portfolio">
+        <h1>Portfolio</h1>
+        <p>See our work here.</p>
+    </section>
+    <section id="contact">
+        <h1>Contact</h1>
+        <p>Get in touch with us!</p>
+    </section>
+  </main>
+
+  <script>
+    
+  window.addEventListener("scroll", function () {
+  const navbar = document.getElementById("navbar");
+  if (window.scrollY > 10) {
+    navbar.classList.add("scrolled");
+  } else {
+    navbar.classList.remove("scrolled");
+  }
+});
+  </script>
+</body>
+</html>
